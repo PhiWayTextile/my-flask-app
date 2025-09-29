@@ -1,0 +1,16 @@
+﻿{% extends \"base.html\" %}
+
+{% block title %}首页 - 我的 Flask 应用{% endblock %}
+
+{% block content %}
+<h1>欢迎来到我的网站！</h1>
+<p>当前服务器时间：{{ current_time }}</p>
+<div class=\"feature\">
+    <h2>网站特性</h2>
+    <ul>
+        <li>响应式设计</li>
+        <li>实时时间显示</li>
+        <li>现代化界面</li>
+    </ul>
+</div>
+{% endblock %}
