@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+﻿from flask import Flask, render_template
 from datetime import datetime
+from ota_manager import ota_bp  # 导入OTA蓝图
 
 app = Flask(__name__)
+app.register_blueprint(ota_bp)  # 注册OTA蓝图
 
 @app.route('/')
 def home():

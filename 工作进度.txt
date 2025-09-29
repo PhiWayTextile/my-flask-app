@@ -146,3 +146,515 @@ tail -20 /var/log/phiwaytextile_pythonanywhere_com.error.log
 **你现在已经具备了完整的 Web 开发能力！** 可以继续学习更复杂的 Flask 功能，或者开始构建自己的项目。
 
 如果有任何问题或想学习特定功能，随时可以问我！😊
+# 🚀 **Flask 网站完整代码文档**
+
+## 📁 **项目结构**
+```
+my_flask_app/
+├── app.py
+├── requirements.txt
+├── .gitignore
+├── deploy.sh
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── about.html
+│   └── contact.html
+└── static/
+    └── css/
+        └── style.css
+```
+
+## 1. **app.py** - 主要的 Flask 应用
+```python
+from flask import Flask, render_template
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return render_template('index.html', current_time=current_time)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/auto-deploy-test')
+def auto_deploy_test():
+    return "自动部署测试成功！部署时间：" + str(datetime.now())
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+## 2. **requirements.txt** - Python 依赖
+```
+blinker==1.9.0
+click==8.3.0
+colorama==0.4.6
+Flask==3.1.2
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+Werkzeug==3.1.3
+```
+
+## 3. **.gitignore** - Git 忽略配置
+```
+# Python 虚拟环境
+venv/
+ENV/
+env/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 日志文件
+*.log
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+```
+
+## 4. **deploy.sh** - 自动部署脚本
+```bash
+#!/bin/bash
+echo "开始自动部署..."
+cd /home/PhiWayTextile/my-flask-app
+
+# 拉取最新代码
+echo "拉取最新代码..."
+git pull origin master
+
+# 安装依赖（如果需要）
+echo "检查依赖..."
+pip install -r requirements.txt
+
+echo "部署完成！请在 Web 选项卡手动点击 Reload"
+```
+
+## 5. **templates/base.html** - 基础模板
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}我的 Flask 应用{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">首页</a>
+        <a href="{{ url_for('about') }}">关于</a>
+        <a href="{{ url_for('contact') }}">联系</a>
+    </nav>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 我的 Flask 应用</p>
+    </footer>
+</body>
+</html>
+```
+
+## 6. **templates/index.html** - 首页模板
+```html
+{% extends "base.html" %}
+
+{% block title %}首页 - 我的 Flask 应用{% endblock %}
+
+{% block content %}
+<h1>欢迎来到我的网站！</h1>
+<p>当前服务器时间：{{ current_time }}</p>
+<div class="feature">
+    <h2>网站特性</h2>
+    <ul>
+        <li>响应式设计</li>
+        <li>实时时间显示</li>
+        <li>现代化界面</li>
+    </ul>
+</div>
+{% endblock %}
+```
+
+## 7. **templates/about.html** - 关于页面模板
+```html
+{% extends "base.html" %}
+
+{% block title %}关于我们 - 我的 Flask 应用{% endblock %}
+
+{% block content %}
+<h1>关于我们</h1>
+<p>这是一个使用 Flask 框架构建的网站示例。</p>
+<div class="about-content">
+    <h2>技术栈</h2>
+    <ul>
+        <li>后端：Flask (Python)</li>
+        <li>前端：HTML5, CSS3</li>
+        <li>部署：PythonAnywhere</li>
+        <li>版本控制：Git + GitHub</li>
+    </ul>
+</div>
+{% endblock %}
+```
+
+## 8. **templates/contact.html** - 联系页面模板
+```html
+{% extends "base.html" %}
+
+{% block title %}联系我们 - 我的 Flask 应用{% endblock %}
+
+{% block content %}
+<h1>联系我们</h1>
+<div class="contact-info">
+    <p>如有问题，请通过以下方式联系我们：</p>
+    <ul>
+        <li>邮箱：contact@example.com</li>
+        <li>电话：+86 123 4567 8900</li>
+    </ul>
+</div>
+{% endblock %}
+```
+
+## 9. **static/css/style.css** - CSS 样式文件
+```css
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* 导航栏 */
+nav {
+    background: #35424a;
+    color: #ffffff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #e8491d;
+}
+
+/* 主内容区域 */
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 页脚 */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #35424a;
+    color: white;
+    margin-top: 20px;
+}
+
+/* 标题样式 */
+h1 {
+    color: #35424a;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e8491d;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: #35424a;
+    margin: 20px 0 10px 0;
+}
+
+/* 列表样式 */
+ul {
+    list-style-position: inside;
+    margin: 10px 0;
+}
+
+li {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+/* 特性区域 */
+.feature {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* 关于内容区域 */
+.about-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* 联系信息区域 */
+.contact-info {
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+}
+```
+
+## 🔄 **使用说明**
+
+### **本地开发：**
+```powershell
+# 激活虚拟环境
+.\venv\Scripts\activate
+
+# 运行应用
+python app.py
+
+# 访问 http://127.0.0.1:5000
+```
+
+### **Git 管理：**
+```powershell
+# 提交更改
+git add .
+git commit -m "描述修改"
+git push origin master
+```
+
+### **生产部署：**
+```bash
+# 在 PythonAnywhere 执行
+./deploy.sh
+# 然后在 Web 选项卡点击 Reload
+```
+
+## ⚙️ **PythonAnywhere 配置**
+- **Source code**: `/home/PhiWayTextile/my-flask-app/app.py`
+- **Working directory**: `/home/PhiWayTextile/my-flask-app/`
+- **Virtualenv**: `/home/PhiWayTextile/my-flask-app/venv`
+- **Force HTTPS**: 启用
+
+## 🌐 **访问地址**
+- **生产网站**: https://phiwaytextile.pythonanywhere.com
+- **GitHub 仓库**: https://github.com/PhiWayTextile/my-flask-app
+
+---
+
+**🎯 这个项目包含了完整的 Flask 网站开发、版本控制、自动化部署的所有代码和配置！**
+🎉 **太棒了！恭喜你成功部署了 Flask 网站！**
+
+现在我来为你生成一份完整的工作日志，总结整个开发部署过程：
+
+# 🚀 **Flask 网站开发与部署工作日志**
+
+## 📋 **项目概述**
+- **项目名称**: 我的 Flask 网站
+- **开发时间**: 2024年
+- **技术栈**: Flask + Python + HTML/CSS + Git + PythonAnywhere
+- **项目状态**: ✅ 成功部署并运行
+
+## 🛠️ **开发环境搭建**
+### **已完成的工作：**
+- ✅ 在 D 盘创建项目：`D:\F\my_flask_app`
+- ✅ 配置 Python 虚拟环境
+- ✅ 安装 Flask 框架和依赖
+- ✅ 创建完整的项目结构
+
+### **项目结构：**
+```
+my_flask_app/
+├── app.py                 # 主要的 Flask 应用
+├── requirements.txt       # Python 依赖列表
+├── .gitignore           # Git 忽略配置
+├── deploy.sh            # 自动部署脚本
+├── templates/           # HTML 模板
+│   ├── base.html
+│   ├── index.html
+│   ├── about.html
+│   └── contact.html
+└── static/
+    └── css/
+        └── style.css    # 样式文件
+```
+
+## 💻 **功能特性**
+### **已实现的功能：**
+- 🌐 **多页面网站**：首页、关于页面、联系页面
+- ⏰ **实时时间显示**：动态显示服务器时间
+- 🎨 **响应式设计**：现代化的 CSS 样式
+- 🔄 **自动部署**：GitHub + PythonAnywhere 自动化部署
+- 📱 **导航系统**：完整的页面导航
+
+### **页面路由：**
+- `/` - 首页（显示实时时间）
+- `/about` - 关于我们
+- `/contact` - 联系我们  
+- `/auto-deploy-test` - 自动部署测试
+
+## 🔄 **部署流程**
+### **本地开发流程：**
+```powershell
+cd D:\F\my_flask_app
+.\venv\Scripts\activate
+python app.py
+```
+
+### **代码管理流程：**
+```powershell
+git add .
+git commit -m "描述修改"
+git push origin master
+```
+
+### **生产部署流程：**
+```bash
+cd /home/PhiWayTextile/my-flask-app
+./deploy.sh
+# 然后在 PythonAnywhere Web 选项卡点击 Reload
+```
+
+## ⚡ **自动部署配置**
+### **部署脚本 (deploy.sh):**
+```bash
+#!/bin/bash
+echo "开始自动部署..."
+cd /home/PhiWayTextile/my-flask-app
+echo "拉取最新代码..."
+git pull origin master
+echo "检查依赖..."
+pip install -r requirements.txt
+echo "部署完成！请在 Web 选项卡手动点击 Reload"
+```
+
+### **定时任务配置：**
+- **任务**: Auto Deploy
+- **命令**: `/home/PhiWayTextile/my-flask-app/deploy.sh`
+- **频率**: 每天 08:00 UTC
+
+## 🚨 **遇到的问题及解决方案**
+### **问题1：模板语法错误**
+- **症状**: `TemplateSyntaxError: unexpected char '\' at 12`
+- **原因**: 模板文件中出现转义字符 `\"` 而不是 `"`
+- **解决方案**: 使用 `sed` 命令修复所有模板文件
+
+### **问题2：生产环境文件缺失**
+- **症状**: `TemplateNotFound: index.html`
+- **原因**: 模板文件没有成功推送到生产环境
+- **解决方案**: 手动在 PythonAnywhere 创建模板文件
+
+### **问题3：编码问题**
+- **症状**: 本地 app.py 出现乱码
+- **原因**: 文件编码不正确
+- **解决方案**: 重新创建正确编码的文件
+
+### **问题4：虚拟环境未激活**
+- **症状**: `ModuleNotFoundError: No module named 'flask'`
+- **原因**: 没有激活虚拟环境
+- **解决方案**: 使用 `.\venv\Scripts\activate` 激活环境
+
+## 🌐 **访问地址**
+### **生产环境：**
+- **主网站**: https://phiwaytextile.pythonanywhere.com
+- **测试页面**: https://phiwaytextile.pythonanywhere.com/auto-deploy-test
+
+### **本地开发：**
+- http://127.0.0.1:5000
+
+## 📊 **技术成果**
+### **掌握的技能：**
+- ✅ **Flask 框架** - Web 应用开发
+- ✅ **Python 虚拟环境** - 环境隔离管理
+- ✅ **Git 版本控制** - 代码管理和协作
+- ✅ **GitHub** - 远程代码仓库
+- ✅ **PythonAnywhere** - 云服务器部署
+- ✅ **HTML/CSS** - 前端界面开发
+- ✅ **Jinja2 模板** - 动态页面渲染
+- ✅ **自动化部署** - CI/CD 流程
+
+### **项目亮点：**
+- 🎯 **完整的开发-部署流程**
+- 🔄 **自动化部署脚本**
+- 📱 **响应式网页设计**
+- ⚡ **实时功能展示**
+- 🔧 **错误排查和解决能力**
+
+## 🔮 **后续优化建议**
+### **短期优化：**
+1. 添加更多交互功能（表单、用户输入）
+2. 优化移动端显示效果
+3. 添加网站图标 (Favicon)
+
+### **中期规划：**
+1. 集成数据库（SQLite 或 MySQL）
+2. 添加用户认证系统
+3. 实现文件上传功能
+
+### **长期发展：**
+1. 使用前端框架（Vue.js/React）
+2. 实现 RESTful API
+3. 配置自定义域名和 HTTPS
+
+## 💡 **经验总结**
+### **成功因素：**
+1. **系统化方法** - 按步骤解决问题
+2. **持续学习** - 不断尝试和调整
+3. **工具链完善** - 完整的开发部署工具
+4. **错误排查能力** - 有效的问题定位和解决
+
+### **学习收获：**
+- 理解了完整的 Web 开发流程
+- 掌握了生产环境部署技能
+- 学会了错误诊断和解决方法
+- 建立了自动化开发工作流
+
+## 🎊 **项目完成状态**
+- ✅ **本地开发环境**: 完整可用
+- ✅ **版本控制系统**: Git + GitHub 配置完成
+- ✅ **生产环境**: 成功部署并运行
+- ✅ **自动化部署**: 脚本配置完成
+- ✅ **网站功能**: 所有页面正常访问
+
+---
+
+**🎉 恭喜！你现在已经具备了完整的 Web 开发能力，可以继续构建更复杂的项目了！**
+
+*最后更新: 2024年*  
+*项目维护者: PhiWayTextile*
