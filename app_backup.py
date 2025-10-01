@@ -1,11 +1,9 @@
 ﻿from flask import Flask, render_template
 from datetime import datetime
 from ota_manager import ota_bp  # 导入OTA蓝图
-from video_manager import video_bp  # 导入视频管理蓝图
 
 app = Flask(__name__)
 app.register_blueprint(ota_bp)  # 注册OTA蓝图
-app.register_blueprint(video_bp)  # 注册视频管理蓝图
 
 @app.route('/')
 def home():
@@ -19,10 +17,6 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-@app.route('/video_management')
-def video_management():
-    return render_template('upload_video.html')
 
 @app.route('/auto-deploy-test')
 def auto_deploy_test():

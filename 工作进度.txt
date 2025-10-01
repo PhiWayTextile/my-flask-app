@@ -658,3 +658,15 @@ echo "部署完成！请在 Web 选项卡手动点击 Reload"
 
 *最后更新: 2024年*  
 *项目维护者: PhiWayTextile*
+总结：你只需要记住两个命令（如果你需要手动更新的话）：
+
+智能更新：/home/PhiWayTextile/auto_update_smart.sh
+
+强制更新：/home/PhiWayTextile/auto_update_force.sh
+# 1. 进入项目目录
+cd /home/PhiWayTextile/my-flask-app
+
+# 2. 运行智能更新（只需要这一个命令！）
+./auto_update_smart.sh
+
+# 3. 在PythonAnywhere Web选项卡点击"Reload"
